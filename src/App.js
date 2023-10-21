@@ -42,7 +42,7 @@ const QuoteWelcome = () => {
 
   // Toastify notification
   const showNotification = message => {
-    toast('🦄 Welcome to React', {
+    toast('💻 Welcome to React', {
       position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
