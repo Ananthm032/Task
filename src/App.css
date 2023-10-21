@@ -33,4 +33,9 @@
   .quote-container p{
     font-size: 1em;
   }
+  .quote-container{
+    width: 350px;
+    height: 250px;
+   padding-inline: 1em;
+  }
 }
