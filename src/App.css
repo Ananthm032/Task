@@ -25,3 +25,12 @@
   font-size: 1.2em;
   font-weight: 400;
 }
+
+@media screen and (max-width:540px) {
+  .quote-container h1{
+    font-size: 2.5em;
+  }
+  .quote-container p{
+    font-size: 1em;
+  }
+}
