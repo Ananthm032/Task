@@ -4,32 +4,33 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./App.css"
 
 const QuoteWelcome = () => {
-  const [quote, setQuote] = useState('');
+  const [quote, setQuote] = useState(''); // Initial state for quote
 
   // Fetch the quote api from backend every 2 minutes
   useEffect(() => {
-    const interval = setInterval(() => {
-      const fetchQuote = async () => {
-        try {
-          const response = await fetch('https://quotes-virid.vercel.app/api');
-          if (response.ok) {
-            const data = await response.json();
-            const randomQuote = data[Math.floor(Math.random() * data.length)].quote;
-            setQuote(randomQuote);
+    const fetchQuote = async () => {
+      try {
+        const response = await fetch('https://quotes-virid.vercel.app/api');
+        if (response.ok) {
+          const data = await response.json();
+          const randomQuote = data[Math.floor(Math.random() * data.length)].quote;
+          setQuote(randomQuote);
 
-            // Show notification
-            showNotification("Welcome to React");
-          } else {
-            console.error('Error fetching quote:', response.status);
-          }
-        } catch (error) {
-          console.error('Error fetching quote:', error);
+          // Show notification
+          showNotification("Welcome to React");
+        } else {
+          console.error('Error fetching quote:', response.status);
         }
-      };
+      } catch (error) {
+        console.error('Error fetching quote:', error);
+      }
+    };
 
-      // Fetch quote
-      fetchQuote();
-    }, 120000); // 2 minutes in milliseconds
+    // Fetch quote initially
+    fetchQuote();
+
+    // Set up interval to fetch a new quote every 2 minutes
+    const interval = setInterval(fetchQuote, 120000); // 2 minutes in milliseconds
 
     // Clean up the interval to avoid memory leaks
     return () => clearInterval(interval);
