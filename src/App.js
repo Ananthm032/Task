@@ -5,40 +5,35 @@ import "./App.css"
 
 const QuoteWelcome = () => {
   const [quote, setQuote] = useState('');
-  const [notificationShown, setNotificationShown] = useState(false);
 
-  // Fetch the quote api from backend
+  // Fetch the quote api from backend every 2 minutes
   useEffect(() => {
-    const fetchQuote = async () => {
-      try {
-        const response = await fetch('https://quotes-virid.vercel.app/api');
-        if (response.ok) {
-          const data = await response.json();
-          const randomQuote = data[Math.floor(Math.random() * data.length)].quote;
-          setQuote(randomQuote);
+    const interval = setInterval(() => {
+      const fetchQuote = async () => {
+        try {
+          const response = await fetch('https://quotes-virid.vercel.app/api');
+          if (response.ok) {
+            const data = await response.json();
+            const randomQuote = data[Math.floor(Math.random() * data.length)].quote;
+            setQuote(randomQuote);
 
-          // Show notification only if it hasn't been shown yet
-          if (!notificationShown) {
+            // Show notification
             showNotification("Welcome to React");
-            setNotificationShown(true); // Set notificationShown to true once the notification is shown
+          } else {
+            console.error('Error fetching quote:', response.status);
           }
-        } else {
-          console.error('Error fetching quote:', response.status);
+        } catch (error) {
+          console.error('Error fetching quote:', error);
         }
-      } catch (error) {
-        console.error('Error fetching quote:', error);
-      }
-    };
+      };
 
-    // Fetch quote when the component mounts
-    fetchQuote();
-
-    // Set up interval to fetch a new quote every 2 minutes
-    const interval = setInterval(fetchQuote, 120000); // 2 minutes in milliseconds
+      // Fetch quote
+      fetchQuote();
+    }, 120000); // 2 minutes in milliseconds
 
     // Clean up the interval to avoid memory leaks
     return () => clearInterval(interval);
-  }, [notificationShown]); // Add notificationShown as a dependency to useEffect
+  }, []); // Empty dependency array ensures that this effect runs once after the initial render
 
   // Toastify notification
   const showNotification = message => {
